@@ -1,3 +1,4 @@
+# Module with only pure functions, thar manipulates the data structure
 defmodule TicTacToe do
     def create_game(), do: { {{nil, nil, nil}, {nil, nil, nil}, {nil, nil, nil}}, :X}
 
@@ -31,6 +32,7 @@ defmodule TicTacToe do
     end
 end
 
+# Module responsible for IO and calling the TicTacToe module
 defmodule RunGame do
     def run() do
         {board, player} = TicTacToe.create_game()
