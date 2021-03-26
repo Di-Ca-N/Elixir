@@ -39,14 +39,23 @@ defmodule RunGame do
         do_run(board, player, nil)  
     end
 
-    defp do_run(_, player, winner) when winner != nil do
+    defp do_run(board, player, winner) when winner != nil do
         winner_player = TicTacToe.change_player(player)
-        IO.puts("Jogador #{winner_player} ganhou!")
+        print_board(board)
+        IO.puts("Player #{winner_player} won!")
     end
 
     defp do_run(board, player, _) do
         IO.puts "What is your play, #{player}?"
+        print_board(board)
+        input = fn message -> IO.gets(message) |> String.trim_trailing() |> String.to_integer() end
+        row = input.("Row: ")
+        col = input.("Col: ")
+        {new_board, next_player, verified_winner} = TicTacToe.run_game({row, col}, board, player)
+        do_run(new_board, next_player, verified_winner)
+    end
 
+    def print_board(board) do
         board |> Tuple.to_list()
               |> Enum.map(fn row -> 
                     row |> Tuple.to_list() 
@@ -56,12 +65,6 @@ defmodule RunGame do
               |> Enum.join("\n")
               |> IO.puts()
         IO.puts("")
-        input = fn message -> IO.gets(message) |> String.trim_trailing() |> String.to_integer() end
-        row = input.("Row: ")
-        col = input.("Col: ")
-
-        {new_board, next_player, verified_winner} = TicTacToe.run_game({row, col}, board, player)
-        do_run(new_board, next_player, verified_winner)
     end
 end
 
